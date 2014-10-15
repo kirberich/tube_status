@@ -3,6 +3,7 @@ from datetime import datetime
 from lxml import etree
 from pprint import pprint
 
+from map_data import lines
 
 STATUS_CODES = {
     'GS': 'Good Service',
@@ -51,7 +52,8 @@ class TubeStatus(object):
         self.status = {}
         self.disruptions = {}
         for node in line_nodes:
-            line = node.find('Line').get('Name')
+            line = lines[node.find('Line').get('Name')]
+
             disruptions = node.find('BranchDisruptions').getchildren()
 
             status = node.find('Status')
