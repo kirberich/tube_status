@@ -33,6 +33,10 @@ def process_stations(raw_data, lines):
         )
         _stations[station.name] = station
 
+    # Now, parse the connection data
+    # Connections are saved as lists with two stations
+    # However, for anything but the first station in a list, the first one can be skipped to save duplication.
+    # In that case, the last station of the previous connection is used.
     for line_name, connections in raw_data['connections'].items():
         line = lines[line_name]
         last = None
