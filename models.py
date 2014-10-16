@@ -22,12 +22,15 @@ class Station(object):
         self.name = name
         self.api_code = api_code
 
-        self.lines = []
         self.connections = {}
 
     def __repr__(self):
         return self.name
     __unicode__ = __repr__
+
+    @property
+    def lines(self):
+        return self.connections.keys()
 
 class Map(object):
     pass
