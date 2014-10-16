@@ -18,10 +18,16 @@ class Line(object):
 
 
 class Station(object):
-    def __init__(self, name, lines=None):
+    def __init__(self, name, api_code):
         self.name = name
-        self.lines = lines if lines else []
+        self.api_code = api_code
 
+        self.lines = []
+        self.connections = {}
+
+    def __repr__(self):
+        return self.name
+    __unicode__ = __repr__
 
 class Map(object):
     pass
