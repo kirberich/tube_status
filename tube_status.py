@@ -11,9 +11,30 @@ STATUS_CODES = {
     'SD': 'Severe Delays',
     # There's more, but I haven't been able to find the codes yet
 }
- 
 
-class TubeStatus(object):
+
+class ApiDataParser(object):
+    def get(self, url):
+        """ Get content from api and return it as a raw string """
+        stream = urllib2.urlopen(url)
+        raw_xml = stream.read()
+        stream.close()
+        return raw_xml
+
+    def create_tree(self, raw_xml):
+        """ Creates tree from raw data and removes namespaces from tags """
+        tree = etree.fromstring(raw_xml)
+
+        # I'm sure this isn't the right way to get rid of xml namespaces, right? Right?!
+        for elem in tree.getiterator():
+            if not hasattr(elem.tag, 'find'): 
+                continue
+            i = elem.tag.find('}')
+            if i >= 0:
+                elem.tag = elem.tag[i+1:]
+        return tree
+
+class TubeStatus(ApiDataParser):
     def __init__(self, raw_xml=None):
         self.url = 'http://cloud.tfl.gov.uk/TrackerNet/LineStatus'
         self.raw_xml = raw_xml
@@ -23,27 +44,13 @@ class TubeStatus(object):
 
     def update(self):
         if not self.keep_raw:
-            stream = urllib2.urlopen(self.url)
-            self.raw_xml = stream.read()
-            stream.close()
+            self.raw_xml = self.get(self.url)
 
-        self.create_tree()
+        self.tree = self.create_tree(self.raw_xml)
         self.parse_tree()
 
         self.last_update = datetime.now()
 
-    def create_tree(self):
-        """ Creates tree from raw data and removes namespaces from tags """
-        self.tree = etree.fromstring(self.raw_xml)
-
-        # I'm sure this isn't the right way to get rid of xml namespaces, right? Right?!
-        for elem in self.tree.getiterator():
-            if not hasattr(elem.tag, 'find'): 
-                continue
-            i = elem.tag.find('}')
-            if i >= 0:
-                elem.tag = elem.tag[i+1:]
-         
     def parse_tree(self):
         """ Parse self.tree into easily-accessible status data in self.status and self.disruptions """
 

@@ -102,6 +102,15 @@ test_data = """<?xml version="1.0" encoding="utf-8"?>
 </ArrayOfLineStatus>
 """
 
-from tube_status import TubeStatus
-status = TubeStatus(raw_xml=test_data)
-print status.good_lines()
+# from tube_status import TubeStatus
+# status = TubeStatus(raw_xml=test_data)
+# import ipdb
+# ipdb.set_trace()
+
+from util import StationGetter
+from map_data import lines 
+
+getter = StationGetter()
+stations = getter.get_stations(lines.values())
+import ipdb
+ipdb.set_trace()

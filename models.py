@@ -6,8 +6,9 @@ class Color(object):
 
 
 class Line(object):
-    def __init__(self, name, bg_color, fg_color):
+    def __init__(self, name, api_code, bg_color, fg_color):
         self.name = name
+        self.api_code = api_code
         self.bg_color = bg_color
         self.fg_color = fg_color
 
@@ -17,7 +18,9 @@ class Line(object):
 
 
 class Station(object):
-    pass
+    def __init__(self, name, lines=None):
+        self.name = name
+        self.lines = lines if lines else []
 
 
 class Map(object):
