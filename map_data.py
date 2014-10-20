@@ -53,6 +53,9 @@ def process_stations(raw_data, lines):
 
             start.connections.setdefault(line, set()).add(end)
             end.connections.setdefault(line, set()).add(start)
+
+            line.stations.add(start)
+            line.stations.add(end)
             last = end
 
     return _stations

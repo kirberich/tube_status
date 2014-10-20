@@ -12,6 +12,8 @@ class Line(object):
         self.bg_color = bg_color
         self.fg_color = fg_color
 
+        self.stations = set()
+
     def __repr__(self):
         return self.name
     __unicode__ = __repr__
