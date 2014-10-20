@@ -1,5 +1,7 @@
-from models import Color, Line, Station
 import json
+import os
+
+from models import Color, Line, Station
 
 # Loads map data from map_data.json and makes it available as two dictionaries
 # 'lines' contains the underground lines as {'name': line_object}
