@@ -4,6 +4,10 @@ class Color(object):
         self.g = g
         self.b = b
 
+    def __repr__(self):
+        return '%s,%s,%s' % (self.r, self.g, self.b)
+    __unicode__ = __repr__
+
 
 class Line(object):
     def __init__(self, name, api_code, bg_color, fg_color):
