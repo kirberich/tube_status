@@ -8,7 +8,8 @@ from models import Color, Line, Station
 # 'stations' contains the underground stations as {'name': station_object}
 
 def load_map_data():
-    with open('map_data.json') as f:
+    file_name = os.path.join(os.path.dirname(__file__), 'map_data.json')
+    with open(file_name) as f:
         return json.loads(f.read())
 
 def process_lines(raw_data):
